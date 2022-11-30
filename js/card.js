@@ -91,6 +91,11 @@ const createAdPopup = (ad) => {
     return card;
 };
 
+/**
+ * Функция добавляет в разметку одно объявление
+ * @param {object} ad данные объявления
+ * @returns {void} добавляет в разметку одно объявление
+ */
 const showCard = (ad) => document.querySelector('#map-canvas').appendChild(createAdPopup(ad));
 
 export {showCard}
