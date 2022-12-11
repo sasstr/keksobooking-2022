@@ -33,7 +33,7 @@ const getRandomFloat = (min, max, numberSimbolsAfterComma = 5) => {
  * @param {array} array
  * @returns {array} Возвращает новый массив с перемешанными элементами массива
  */
-  const shuffle = (array) => {
+const shuffle = (array) => {
   const cloneArray = array.slice();
   let j;
   let temp;
@@ -70,4 +70,4 @@ export {
   shuffle,
   getRendomItemOfArray,
   getRandomLengthArray,
-}
+};

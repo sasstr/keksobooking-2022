@@ -98,4 +98,4 @@ const createAdPopup = (ad) => {
  */
 const showCard = (ad) => document.querySelector('#map-canvas').appendChild(createAdPopup(ad));
 
-export {showCard}
+export {showCard, createAdPopup}

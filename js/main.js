@@ -1,6 +1,3 @@
-import {createAds} from './data.js';
-import {showCard} from './card.js';
 import './form.js'
+import './map.js'
 
-let ads = createAds();
-showCard(ads[0]);
