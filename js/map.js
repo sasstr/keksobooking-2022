@@ -64,14 +64,10 @@ const pinIcon = L.icon({
 });
 
 adList.forEach((adItem)=>{
-
-  const lat = adItem.location.x;
-  const lng = adItem.location.y;
-
   const marker = L.marker(
     {
-      lat: lat,
-      lng: lng,
+      lat: adItem.location.x,
+      lng: adItem.location.y,
     },
     {
       icon: pinIcon,
