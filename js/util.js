@@ -69,5 +69,5 @@ export {
   getRandomFloat,
   shuffle,
   getRendomItemOfArray,
-  getRandomLengthArray,
+  getRandomLengthArray
 };

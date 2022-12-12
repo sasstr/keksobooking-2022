@@ -18,16 +18,16 @@ const map = L.map('map-canvas')
     lng: TokyoCenter.LNG,
   }, 10);
 
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  ).addTo(map);
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
 
-  map.on('load',
-    setActivePageState()
-  );
+map.on('load',
+  setActivePageState(),
+);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -55,9 +55,7 @@ mainPin.on('moveend', (evt) => {
 
 const pinGroup = L.layerGroup().addTo(map);
 
-const clearPinGroup = () => {
-  pinGroup.clearLayers();
-}
+// const clearPinGroup = () => {   pinGroup.clearLayers();}
 
 const pinIcon = L.icon({
   iconUrl: './img/pin.svg',
