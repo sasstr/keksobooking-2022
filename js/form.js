@@ -12,7 +12,7 @@ const GUESTS = {
     '0': '100',
     '1': '1',
     '2': '2',
-    '3':'3',
+    '3': '3',
 };
 
 const form = document.querySelector('.ad-form');
