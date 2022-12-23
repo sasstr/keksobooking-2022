@@ -65,8 +65,8 @@ const showPins = (adList) => {
   adList.forEach((adItem)=>{
     const marker = L.marker(
       {
-        lat: adItem.location.x,
-        lng: adItem.location.y,
+        lat: adItem.location.lat,
+        lng: adItem.location.lng,
       },
       {
         icon: pinIcon,
