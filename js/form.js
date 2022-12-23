@@ -75,5 +75,3 @@ const selectRoomsChangeHandler = () => {
 };
 
 roomNumber.addEventListener('change', selectRoomsChangeHandler);
-
-

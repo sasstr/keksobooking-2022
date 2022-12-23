@@ -1,8 +1,6 @@
 import {setInitialPageState, setActivePageState} from './page-state.js'
-import {createAds} from './data.js';
 import {createAdPopup} from './card.js';
-
-const adList = createAds();
+import {getData} from './api.js';
 
 const TokyoCenter = {
   LAT: 35.68949,
@@ -53,29 +51,34 @@ mainPin.on('moveend', (evt) => {
   address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 
-const pinGroup = L.layerGroup().addTo(map);
-
-// const clearPinGroup = () => {   pinGroup.clearLayers();}
-
 const pinIcon = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
 
-adList.forEach((adItem)=>{
-  const marker = L.marker(
-    {
-      lat: adItem.location.x,
-      lng: adItem.location.y,
-    },
-    {
-      icon: pinIcon,
-    },
-  );
+const pinGroup = L.layerGroup().addTo(map);
+const clearPinGroup = () => {   pinGroup.clearLayers();}
 
-  marker
-    .addTo(pinGroup)
-    .bindPopup(createAdPopup(adItem));
+const showPins = (adList) => {
+  clearPinGroup();
+  adList.forEach((adItem)=>{
+    const marker = L.marker(
+      {
+        lat: adItem.location.x,
+        lng: adItem.location.y,
+      },
+      {
+        icon: pinIcon,
+      },
+    );
 
-});
+    marker
+      .addTo(pinGroup)
+      .bindPopup(createAdPopup(adItem));
+
+  });
+};
+
+getData(showPins);
+
