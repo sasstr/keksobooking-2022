@@ -17,7 +17,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: TokyoCenter.LAT,
     lng: TokyoCenter.LNG,
-  }, 10);
+  }, ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -31,7 +31,11 @@ map.on('load',
   // @TODO  getData => array  => filtres.addEventListener('change', ()=> {}) Получаем данные с сервера
   // Вешаем на форму фильтров слушатель событий который отфильтрует нужные пины getFiltredAds и оставит их не более 10
   // и добавить дебаунс на обработку событий на фильтре
-);
+
+).setView({
+  lat: TokyoCenter.LAT,
+  lng: TokyoCenter.LNG,
+}, ZOOM);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
