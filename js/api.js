@@ -1,11 +1,9 @@
 import {showErrorMessage} from './state-messages.js';
 
 const Urls = {
-  GET: 'https://23.javascript.pages.academy/keksobooking/data/404',
+  GET: 'https://23.javascript.pages.academy/keksobooking/data/',
   POST: 'https://23.javascript.pages.academy/keksobooking/',
 }
-
-//  const showError = (str) => console.log(str);
 
 const getData = (onSuccess) => {
   fetch(Urls.GET)

@@ -3,11 +3,13 @@ import {createAdPopup} from './card.js';
 import {getData} from './api.js';
 
 const ZOOM = 13;
+const MAX_AD_COUNT = 10;
 const TokyoCenter = {
   LAT: 35.67240,
   LNG: 139.75266,
 }
 const address = document.querySelector('#address');
+const filters = document.querySelector('.map__filters');
 
 setInitialPageState();
 
@@ -25,7 +27,10 @@ L.tileLayer(
 ).addTo(map);
 
 map.on('load',
-  setActivePageState(),
+  setActivePageState(), // устанавливаем форму в активное состояние, но форму для фильтрации только после получения данных с сервера.
+      // @TODO  getData => array  => filtres.addEventListener('change', ()=> {}) Получаем данные с сервера
+      // Вешаем на форму фильтров слушатель событий который отфильтрует нужные пины getFiltredAds и оставит их не более 10
+      // и добавить дебаунс на обработку событий на фильтре
 );
 
 const mainPinIcon = L.icon({
