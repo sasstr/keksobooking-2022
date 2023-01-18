@@ -86,14 +86,14 @@ const showPins = (adList) => {
   });
 };
 
-const resetMap = () => {
-  mainPinMarker.setLatLng(TokyoCenter);
-  address.value = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
-  map.setView(TokyoCenter, ZOOM);
-  map.closePopup();
-  getData(showPins);
+// const resetMap = () => {
+//   mainPinMarker.setLatLng(TokyoCenter);
+//   address.value = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
+//   map.setView(TokyoCenter, ZOOM);
+//   map.closePopup();
+//   getData(showPins);
 
-};
+// };
 
 getData(showPins);
 
