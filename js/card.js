@@ -81,9 +81,11 @@ const createAdPopup = (ad) => {
   card.querySelector('.popup__type').textContent = TYPES_OF_RESIDENCE[ad.offer.type];
   card.querySelector('.popup__text--capacity').textContent = (`${ad.offer.rooms} ${getCorrectWord(ad.offer.rooms, ROOM_WORDS)} для ${ad.offer.guests} ${getCorrectWord(ad.offer.guests, GUEST_WORDS)}`.trim());
   card.querySelector('.popup__text--time').textContent = (`Заезд после ${ad.offer.checkin}, выезд до ${ad.offer.checkout}`.trim());
-  card.replaceChild(createFeaturesList(ad.offer.features), card.querySelector('.popup__features'));
+  ad.offer.features ? card.replaceChild(createFeaturesList(ad.offer.features), card.querySelector('.popup__features')) :
+    card.querySelector('.popup__features').remove();
   card.querySelector('.popup__description').textContent = ad.offer.description;
-  card.replaceChild(createPopupPhotos(ad), card.querySelector('.popup__photos'));
+  ad.offer.photos ? card.replaceChild((createPopupPhotos(ad)), card.querySelector('.popup__photos')) :
+    card.querySelector('.popup__photos').remove();
   card.childNodes.forEach((item, i) => {
     if ((item.textContent === '' && item.childNodes.length === 0 && item.src === undefined) || item.src === '') {
       card.childNodes[i].classList.add('hidden');

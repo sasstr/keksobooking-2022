@@ -23,6 +23,7 @@ const timeIn = form.querySelector('#timein');
 const timeOut = form.querySelector('#timeout');
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
+const adFormReset = form.querySelector('.ad-form__reset');
 
 /**
  * Функция синхронизирует по полю количество мест поле количество комнат
@@ -75,3 +76,15 @@ const selectRoomsChangeHandler = () => {
 };
 
 roomNumber.addEventListener('change', selectRoomsChangeHandler);
+
+const formResetHandler = (evtForm) => {
+  evtForm.target.preventDefault();
+  form.reset();
+  mainPinMarker.setLatLng(TokyoCenter);
+  document.querySelector('#address') = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
+  map.setView(TokyoCenter, ZOOM);
+  map.closePopup();
+  getData(showPins);
+};
+
+adFormReset.addEventListener('reset', formResetHandler);

@@ -2,9 +2,10 @@ import {setInitialPageState, setActivePageState} from './page-state.js'
 import {createAdPopup} from './card.js';
 import {getData} from './api.js';
 
+const ZOOM = 13;
 const TokyoCenter = {
-  LAT: 35.68949,
-  LNG: 139.69171,
+  LAT: 35.67240,
+  LNG: 139.75266,
 }
 const address = document.querySelector('#address');
 
@@ -78,6 +79,15 @@ const showPins = (adList) => {
       .bindPopup(createAdPopup(adItem));
 
   });
+};
+
+const resetMap = () => {
+  mainPinMarker.setLatLng(TokyoCenter);
+  address.value = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
+  map.setView(TokyoCenter, ZOOM);
+  map.closePopup();
+  getData(showPins);
+
 };
 
 getData(showPins);
