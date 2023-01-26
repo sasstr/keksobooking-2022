@@ -6,7 +6,7 @@ const housingGuests = document.querySelector('#housing-guests');
 const housingFeatures = document.querySelector('#housing-features');
 const PriceLevel = {
   CHEAP: 10000,
-  EXPENSIVE: 50000
+  EXPENSIVE: 50000,
 };
 const Levels = {
   'low': (ad)=> { return PriceLevel.CHEAP > ad.offer.price;},

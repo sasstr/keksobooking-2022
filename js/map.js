@@ -66,9 +66,9 @@ const showPins = (adList) => {
 
 map.on('load',
   getData((ads) => {
-    if(ads) {setActivePageState()};
+    if(ads) {setActivePageState()}
     filters.addEventListener('change', debounce( () => showPins(filterData(ads))) );
-  })
+  }),
 ).setView({
   lat: TokyoCenter.LAT,
   lng: TokyoCenter.LNG,
@@ -107,7 +107,7 @@ const pinIcon = L.icon({
 });
 
 const resetMap = () => {
-  mainPinMarker.setLatLng(TokyoCenter);
+  mainPin.setLatLng(TokyoCenter);
   address.value = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
   map.setView(TokyoCenter, ZOOM);
   map.closePopup();
