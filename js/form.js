@@ -1,3 +1,5 @@
+import {resetMap} from './map.js';
+
 const PriceMin = {
   bungalow: 0,
   flat: 1000,
@@ -80,11 +82,7 @@ roomNumber.addEventListener('change', selectRoomsChangeHandler);
 const formResetHandler = (evtForm) => {
   evtForm.target.preventDefault();
   form.reset();
-  mainPinMarker.setLatLng(TokyoCenter);
-  document.querySelector('#address') = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
-  map.setView(TokyoCenter, ZOOM);
-  map.closePopup();
-  getData(showPins);
+  resetMap();
 };
 
 adFormReset.addEventListener('reset', formResetHandler);

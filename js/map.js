@@ -1,15 +1,17 @@
 import {setInitialPageState, setActivePageState} from './page-state.js'
 import {createAdPopup} from './card.js';
 import {getData} from './api.js';
+import {debounce} from './util.js';
+import {filterData} from './filter.js';
 
 const ZOOM = 13;
-// const MAX_AD_COUNT = 10;
+const MAX_AD_COUNT = 10;
 const TokyoCenter = {
   LAT: 35.67240,
   LNG: 139.75266,
 }
 const address = document.querySelector('#address');
-// const filters = document.querySelector('.map__filters');
+const filters = document.querySelector('.map__filters');
 
 setInitialPageState();
 
@@ -26,16 +28,53 @@ L.tileLayer(
   },
 ).addTo(map);
 
-map.on('load',
-  setActivePageState(), // устанавливаем форму в активное состояние, но форму для фильтрации только после получения данных с сервера.
-  // @TODO  getData => array  => filtres.addEventListener('change', ()=> {}) Получаем данные с сервера
-  // Вешаем на форму фильтров слушатель событий который отфильтрует нужные пины getFiltredAds и оставит их не более 10
-  // и добавить дебаунс на обработку событий на фильтре
+/**
+ * Функция отрисовывает на карте пин объявления
+ * @param {object} adItem объект с данными объявления
+ */
+const renderPin = (adItem)=>{
+  const marker = L.marker(
+    {
+      lat: adItem.location.lat,
+      lng: adItem.location.lng,
+    },
+    {
+      icon: pinIcon,
+    },
+  );
 
+  marker
+    .addTo(pinGroup)
+    .bindPopup(createAdPopup(adItem));
+
+};
+
+const pinGroup = L.layerGroup().addTo(map);
+/**
+ * Функция отчищает открытые объявления
+ */
+const clearPinGroup = () => { pinGroup.clearLayers();}
+
+/**
+ * Функция отрисовывает группу пинов объявления на карте
+ * @param {array} adList
+ */
+const showPins = (adList) => {
+  clearPinGroup();
+  adList.slice(0, MAX_AD_COUNT).forEach(renderPin);
+};
+
+map.on('load',
+  getData((ads) => {
+    if(ads) {setActivePageState()};
+    filters.addEventListener('change', debounce( () => showPins(filterData(ads))) );
+  })
 ).setView({
   lat: TokyoCenter.LAT,
   lng: TokyoCenter.LNG,
 }, ZOOM);
+
+getData(showPins);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -67,37 +106,13 @@ const pinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-const pinGroup = L.layerGroup().addTo(map);
-const clearPinGroup = () => {   pinGroup.clearLayers();}
-
-const showPins = (adList) => {
-  clearPinGroup();
-  adList.forEach((adItem)=>{
-    const marker = L.marker(
-      {
-        lat: adItem.location.lat,
-        lng: adItem.location.lng,
-      },
-      {
-        icon: pinIcon,
-      },
-    );
-
-    marker
-      .addTo(pinGroup)
-      .bindPopup(createAdPopup(adItem));
-
-  });
+const resetMap = () => {
+  mainPinMarker.setLatLng(TokyoCenter);
+  address.value = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
+  map.setView(TokyoCenter, ZOOM);
+  map.closePopup();
+  getData(showPins);
+  filters.reset();
 };
 
-// const resetMap = () => {
-//   mainPinMarker.setLatLng(TokyoCenter);
-//   address.value = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
-//   map.setView(TokyoCenter, ZOOM);
-//   map.closePopup();
-//   getData(showPins);
-
-// };
-
-getData(showPins);
-
+export {resetMap}
