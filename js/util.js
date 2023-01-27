@@ -1,3 +1,18 @@
+/**
+ * Функция проверяет нажатие клавиши Esc
+ * @param {evt} evt
+ * @returns {boolean}
+ */
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+/**
+ * Функция задержки отработки интерфейса на определенное время
+ * @param {function} callback функция, которая отработает после задержки
+ * @param {number} timeoutDelay время задержки
+ * @returns
+ */
 const debounce = function (callback, timeoutDelay = 500) {
   let timeoutId;
   return (...rest) => {
@@ -6,4 +21,6 @@ const debounce = function (callback, timeoutDelay = 500) {
   };
 };
 
-export { debounce };
+export { debounce,
+  isEscEvent,
+};

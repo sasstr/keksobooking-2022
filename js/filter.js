@@ -58,11 +58,11 @@ const compareFeatures = (ad) => {
  * @param {array} data объект с объявлениями
  * @returns {boolean}
  */
-const filterData = (data) => data.filter((ad) => { return compareType(ad)
+const filterData = (data) => data.filter((ad) => compareType(ad)
   && comparePrice(ad)
   && compareRooms(ad)
   && compareGuests(ad)
   && compareFeatures(ad)
-});
+);
 
 export {filterData};

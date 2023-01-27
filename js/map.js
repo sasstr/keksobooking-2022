@@ -66,7 +66,10 @@ const showPins = (adList) => {
 
 map.on('load',
   getData((ads) => {
-    if(ads) {setActivePageState()}
+    if(ads) {
+      setActivePageState();
+      address.value = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
+    }
     filters.addEventListener('change', debounce( () => showPins(filterData(ads))) );
   }),
 ).setView({
