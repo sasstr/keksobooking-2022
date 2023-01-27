@@ -62,7 +62,7 @@ const filterData = (data) => data.filter((ad) => compareType(ad)
   && comparePrice(ad)
   && compareRooms(ad)
   && compareGuests(ad)
-  && compareFeatures(ad)
+  && compareFeatures(ad),
 );
 
 export {filterData};
