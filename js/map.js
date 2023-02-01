@@ -112,6 +112,7 @@ const pinIcon = L.icon({
 const resetMap = () => {
   mainPin.setLatLng(TokyoCenter);
   address.value = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
+  console.log(`${TokyoCenter.LAT}, ${TokyoCenter.LNG}`);
   map.setView(TokyoCenter, ZOOM);
   map.closePopup();
   getData(showPins);

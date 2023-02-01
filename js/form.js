@@ -96,8 +96,8 @@ roomNumber.addEventListener('change', selectRoomsChangeHandler);
  */
 const resetForm = () => {
   form.reset();
-  resetMap();
   clearImages();
+  resetMap();
 }
 
 /**
@@ -111,21 +111,15 @@ const formResetHandler = (evtForm) => {
 
 adFormReset.addEventListener('reset', formResetHandler);
 
-/**
- * Функция показывает сообщение об успешном отправке формы при успехе, и выводит ошибку, если форма не отправлена
- * @param {function} onSuccess функция, вызываемая при успешной отправке формы
- */
-const setUserFormSubmit = (onSuccess) => {
-  form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-
-    sendData(
-      onSuccess,
-      showErrorMessage,
-      new FormData(evt.target),
-    );
-  });
-}
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  console.log(evt.target);
+  sendData(
+    showSuccessMessage,
+    showErrorMessage,
+    new FormData(evt.target),
+  );
+});
 
 /**
  * Функция показывает сообщение об успешной отправке формы
@@ -135,8 +129,6 @@ const showSuccessMessage = () => {
   resetForm();
   document.addEventListener('keydown', successMessageEscKeydownHandler);
 }
-
-setUserFormSubmit(showSuccessMessage);
 
 /**
  * Функция по щелчку клавиши Esc закрывает сообщение об успешной отправке формы
