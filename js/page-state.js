@@ -2,8 +2,8 @@ const adForm = document.querySelector('.ad-form');
 const mapFiltersForm = document.querySelector('.map__filters');
 
 /**
- * Функция устанавливает начальное состояение страницы приложения
- * @returns {void} сбрасывает форму в начальное сосотяние и блокирует к ней доступ
+ * Функция устанавливает неактивное состояние страницы приложения
+ * @returns {void} сбрасывает форму в начальное состояние и блокирует к ней доступ
  */
 const setInitialPageState = () => {
   adForm.classList.add('ad-form--disabled');

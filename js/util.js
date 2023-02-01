@@ -21,6 +21,4 @@ const debounce = function (callback, timeoutDelay = 500) {
   };
 };
 
-export { debounce,
-  isEscEvent
-};
+export { debounce, isEscEvent };

@@ -22,7 +22,6 @@ const GUESTS = {
 
 const body = document.querySelector('body');
 const form = body.querySelector('.ad-form');
-const filter = body.querySelector('.map__filters');
 const type = form.querySelector('#type');
 const price = form.querySelector('#price');
 const time = form.querySelector('.ad-form__element--time');
@@ -93,12 +92,11 @@ const selectRoomsChangeHandler = () => {
 roomNumber.addEventListener('change', selectRoomsChangeHandler);
 
 /**
- *
+ *  Функция сбрасывает форму на начальное состояние
  */
 const resetForm = () => {
   form.reset();
   resetMap();
-  filter.reset();
   clearImages();
 }
 
@@ -122,8 +120,8 @@ const setUserFormSubmit = (onSuccess) => {
     evt.preventDefault();
 
     sendData(
-      () => onSuccess(),
-      () => showErrorMessage(),
+      onSuccess,
+      showErrorMessage,
       new FormData(evt.target),
     );
   });
@@ -190,6 +188,4 @@ const errorMessageEscKeydownHandler = (evt) => {
   }
 };
 
-errorMessage.addEventListener('click', () => {
-  closeErrorMessage();
-});
+errorMessage.addEventListener('click', closeErrorMessage);
