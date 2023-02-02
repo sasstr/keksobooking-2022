@@ -1,4 +1,4 @@
-import {resetMap} from './map.js';
+import { resetMap } from './map.js';
 import { clearImages } from './file-uploader.js';
 import { isEscEvent } from './util.js';
 import { sendData } from './api.js';
@@ -149,9 +149,14 @@ const closeSuccessMessage = () => {
   document.removeEventListener('keydown', successMessageEscKeydownHandler);
 }
 
-successMessage.addEventListener('click', () => {
+/**
+ * Функция слушатель события клик для закрытия сообщения об успехе отправки формы на сервер
+ */
+const successMessageClickHandler = () => {
   closeSuccessMessage();
-});
+}
+
+successMessage.addEventListener('click', successMessageClickHandler);
 
 /**
  * Функция показывает сообщение об ошибке отправки формы
@@ -180,4 +185,11 @@ const errorMessageEscKeydownHandler = (evt) => {
   }
 };
 
-errorMessage.addEventListener('click', closeErrorMessage);
+/**
+ * Функция слушатель события клик для закрытия сообщения об ошибки отправки формы на сервер
+ */
+const errorMessageClickHandler = () => {
+  closeErrorMessage();
+}
+
+errorMessage.addEventListener('click', errorMessageClickHandler);
