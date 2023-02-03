@@ -105,7 +105,6 @@ const resetRoomAmountList = () => {
     capacity.add(option);
     capacity.addEventListener('change', guestChangeHandler )
   });
-  console.log(capacity);
 };
 
 /**
