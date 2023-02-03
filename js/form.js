@@ -128,12 +128,12 @@ const resetForm = () => {
  * @param {Event} evtForm
  * @returns {void}
  */
-const formResetHandler = (evtForm) => {
+const formClickHandler = (evtForm) => {
   evtForm.preventDefault();
   resetForm();
 };
 
-adFormReset.addEventListener('click', formResetHandler);
+adFormReset.addEventListener('click', formClickHandler);
 
 /**
  *  Функция слушатель события отправки формы
