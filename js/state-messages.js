@@ -1,3 +1,8 @@
+/**
+ * Функция создает сообщение об ошибки и добавляет его в дом
+ * @param {string} errorMessage
+ * @returns {void}
+ */
 const showErrorMessage = (errorMessage) => {
   const messageElement = document.createElement('div');
 

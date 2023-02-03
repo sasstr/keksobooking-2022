@@ -11,7 +11,7 @@ const isEscEvent = (evt) => {
  * Функция задержки отработки интерфейса на определенное время
  * @param {function} callback функция, которая отработает после задержки
  * @param {number} timeoutDelay время задержки
- * @returns
+ * @returns {function}
  */
 const debounce = function (callback, timeoutDelay = 500) {
   let timeoutId;

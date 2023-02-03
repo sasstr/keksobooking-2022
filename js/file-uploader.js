@@ -54,6 +54,7 @@ photoChooser.addEventListener('change', () => {
 
 /**
  *  Функция возвращает картинки на сайте в начальное состояние.
+ * @returns {void}
  */
 const clearImages = () => {
   avatarPreview.src = 'img/muffin-grey.svg';
