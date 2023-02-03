@@ -98,17 +98,15 @@ roomNumber.addEventListener('change', selectRoomsChangeHandler);
  *  @returns {void}
  */
 const resetRoomAmountList = () => {
-  capacity.removeEventListener('change', guestChangeHandler );
   capacity.innerHTML = '';
   const room = ROOMS_LIST;
   const keys = Object.keys(room);
   keys.forEach((value, i)=>{
     const valueString = room[keys[i]];
     const option = new Option(valueString, value, false, false);
-
     capacity.add(option);
-    capacity.addEventListener('change', guestChangeHandler )
   });
+  capacity.addEventListener('change', guestChangeHandler )
   capacity.selectedIndex = 1;
 };
 
