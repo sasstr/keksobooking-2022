@@ -5,15 +5,28 @@ const Urls = {
   POST: 'https://23.javascript.pages.academy/keksobooking/',
 }
 
+/**
+ *  Функция получения данных с сервера
+ * @param {Function} onSuccess функция колбэк в случае удачного получения данных
+ * @returns {Array} данные с объявлениями
+ */
 const getData = (onSuccess) => {
   fetch(Urls.GET)
     .then((response) => response.json())
     .then((ads) => {
+      console.log(ads)
       onSuccess(ads);
     })
     .catch(() => showErrorMessage('Данные не загрузились, попробуйте обновить страницу'));
 };
 
+/**
+ *
+ * @param {Function} onSuccess функция колбэк в случае удачной отправки объявления на сервер
+ * @param {Function} onFail
+ * @param {HTMLElement} body
+ * @returns {void}
+ */
 const sendData = (onSuccess, onFail, body) => {
   fetch(
     Urls.POST,

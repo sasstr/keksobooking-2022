@@ -93,6 +93,10 @@ const selectRoomsChangeHandler = () => {
 
 roomNumber.addEventListener('change', selectRoomsChangeHandler);
 
+/**
+ *  Функция для сброса списка комнат создавая новый список
+ *  @returns {void}
+ */
 const resetRoomAmountList = () => {
   capacity.removeEventListener('change', guestChangeHandler );
   capacity.innerHTML = '';
@@ -110,6 +114,7 @@ const resetRoomAmountList = () => {
 
 /**
  *  Функция сбрасывает форму на начальное состояние
+ * @returns {void}
  */
 const resetForm = () => {
   adForm.reset();
@@ -121,6 +126,7 @@ const resetForm = () => {
 /**
  *  Функция слушатель события для сбрасывания формы
  * @param {Event} evtForm
+ * @returns {void}
  */
 const formResetHandler = (evtForm) => {
   evtForm.preventDefault();
@@ -132,6 +138,7 @@ adFormReset.addEventListener('click', formResetHandler);
 /**
  *  Функция слушатель события отправки формы
  * @param {event} evt
+ * @returns {void}
  */
 const adFormSubmitHandler = (evt) => {
   evt.preventDefault();
@@ -146,6 +153,7 @@ adForm.addEventListener('submit', adFormSubmitHandler);
 
 /**
  * Функция показывает сообщение об успешной отправке формы
+ * @returns {void}
  */
 const showSuccessMessage = () => {
   body.appendChild(successMessage);
@@ -156,6 +164,7 @@ const showSuccessMessage = () => {
 /**
  * Функция по щелчку клавиши Esc закрывает сообщение об успешной отправке формы
  * @param {evtEsc} event
+ * @returns {void}
  */
 const successMessageEscKeydownHandler = (evtEsc) => {
   if (isEscEvent(evtEsc)) {
@@ -166,6 +175,7 @@ const successMessageEscKeydownHandler = (evtEsc) => {
 
 /**
  * Функция удаляет сообщение об успешной отправке формы
+ * @returns {void}
  */
 const closeSuccessMessage = () => {
   body.removeChild(successMessage);
@@ -174,6 +184,7 @@ const closeSuccessMessage = () => {
 
 /**
  * Функция слушатель события клик для закрытия сообщения об успехе отправки формы на сервер
+ * @returns {void}
  */
 const successMessageClickHandler = () => {
   closeSuccessMessage();
@@ -183,6 +194,7 @@ successMessage.addEventListener('click', successMessageClickHandler);
 
 /**
  * Функция показывает сообщение об ошибке отправки формы
+ * @returns {void}
  */
 const showErrorMessage = () => {
   body.appendChild(errorMessage);
@@ -191,6 +203,7 @@ const showErrorMessage = () => {
 
 /**
  * Функция закрывает сообщение об ошибке по нажатию кнопки Esc
+ * @returns {void}
  */
 const closeErrorMessage = () => {
   body.removeChild(errorMessage);
@@ -200,6 +213,7 @@ const closeErrorMessage = () => {
 /**
  * Функция по щелчку клавиши Esc закрывает сообщение об успешной отправке формы
  * @param {evt} event
+ * @returns {void}
  */
 const errorMessageEscKeydownHandler = (evt) => {
   if (isEscEvent(evt)) {
@@ -210,6 +224,7 @@ const errorMessageEscKeydownHandler = (evt) => {
 
 /**
  * Функция слушатель события клик для закрытия сообщения об ошибки отправки формы на сервер
+ * @returns {void}
  */
 const errorMessageClickHandler = () => {
   closeErrorMessage();

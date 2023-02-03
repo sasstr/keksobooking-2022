@@ -31,6 +31,7 @@ L.tileLayer(
 /**
  * Функция отрисовывает на карте пин объявления
  * @param {object} adItem объект с данными объявления
+ * @returns {void}
  */
 const renderPin = (adItem)=>{
   const marker = L.marker(
@@ -51,12 +52,14 @@ const renderPin = (adItem)=>{
 const pinGroup = L.layerGroup().addTo(map);
 /**
  * Функция отчищает открытые объявления
+ * @returns {void}
  */
 const clearPinGroup = () => { pinGroup.clearLayers();}
 
 /**
  * Функция отрисовывает группу пинов объявления на карте
  * @param {array} adList
+ * @returns {void}
  */
 const showPins = (adList) => {
   clearPinGroup();
@@ -107,6 +110,9 @@ const pinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
+/** Функция приводит состояние карты к начальному
+ * @returns {void}
+ */
 const resetMap = () => {
   mainPin.setLatLng(TokyoCenter);
   address.value = `${TokyoCenter.lat}, ${TokyoCenter.lng}`;
