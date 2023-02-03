@@ -187,7 +187,6 @@ successMessage.addEventListener('click', successMessageClickHandler);
 const showErrorMessage = () => {
   body.appendChild(errorMessage);
   document.addEventListener('keydown', errorMessageEscKeydownHandler);
-  resetForm();
 }
 
 /**
