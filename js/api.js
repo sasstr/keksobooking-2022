@@ -14,7 +14,6 @@ const getData = (onSuccess) => {
   fetch(Urls.GET)
     .then((response) => response.json())
     .then((ads) => {
-      console.log(ads)
       onSuccess(ads);
     })
     .catch(() => showErrorMessage('Данные не загрузились, попробуйте обновить страницу'));
