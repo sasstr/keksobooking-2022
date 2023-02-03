@@ -7,8 +7,8 @@ import {filterData} from './filter.js';
 const ZOOM = 13;
 const MAX_AD_COUNT = 10;
 const TokyoCenter = {
-  LAT: 35.67240,
-  LNG: 139.75266,
+  lat: 35.67240,
+  lng: 139.75266,
 }
 const address = document.querySelector('#address');
 const filters = document.querySelector('.map__filters');
@@ -17,8 +17,8 @@ setInitialPageState();
 
 const map = L.map('map-canvas')
   .setView({
-    lat: TokyoCenter.LAT,
-    lng: TokyoCenter.LNG,
+    lat: TokyoCenter.lat,
+    lng: TokyoCenter.lng,
   }, ZOOM);
 
 L.tileLayer(
@@ -46,7 +46,6 @@ const renderPin = (adItem)=>{
   marker
     .addTo(pinGroup)
     .bindPopup(createAdPopup(adItem));
-
 };
 
 const pinGroup = L.layerGroup().addTo(map);
@@ -68,13 +67,13 @@ map.on('load',
   getData((ads) => {
     if(ads) {
       setActivePageState();
-      address.value = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
+      address.value = `${TokyoCenter.lat}, ${TokyoCenter.lng}`;
+      filters.addEventListener('change', debounce( () => showPins(filterData(ads))) );
     }
-    filters.addEventListener('change', debounce( () => showPins(filterData(ads))) );
   }),
 ).setView({
-  lat: TokyoCenter.LAT,
-  lng: TokyoCenter.LNG,
+  lat: TokyoCenter.lat,
+  lng: TokyoCenter.lng,
 }, ZOOM);
 
 getData(showPins);
@@ -87,8 +86,8 @@ const mainPinIcon = L.icon({
 
 const mainPin = L.marker(
   {
-    lat: TokyoCenter.LAT,
-    lng: TokyoCenter.LNG,
+    lat: TokyoCenter.lat,
+    lng: TokyoCenter.lng,
   },
   {
     draggable: true,
@@ -97,7 +96,6 @@ const mainPin = L.marker(
 );
 
 mainPin.addTo(map);
-address.value = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
 
 mainPin.on('moveend', (evt) => {
   address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
@@ -111,8 +109,7 @@ const pinIcon = L.icon({
 
 const resetMap = () => {
   mainPin.setLatLng(TokyoCenter);
-  address.value = `${TokyoCenter.LAT}, ${TokyoCenter.LNG}`;
-  console.log(`${TokyoCenter.LAT}, ${TokyoCenter.LNG}`);
+  address.value = `${TokyoCenter.lat}, ${TokyoCenter.lng}`;
   map.setView(TokyoCenter, ZOOM);
   map.closePopup();
   getData(showPins);

@@ -13,6 +13,8 @@ const PriceMin = {
 
 const ROOMS = {'1': {'1': 'для 1 гостя'}, '2': {'1': 'для 1 гостя', '2': 'для 2 гостей'}, '3': {'1': 'для 1 гостя', '2': 'для 2 гостей', '3': 'для 3 гостей'}, '100': {'0': 'не для гостей'}};
 
+const ROOMS_LIST = {'1': 'для 1 гостя', '2': 'для 2 гостей', '3': 'для 3 гостей', '0': 'не для гостей' };
+
 const GUESTS = {
   '0': '100',
   '1': '1',
@@ -21,15 +23,15 @@ const GUESTS = {
 };
 
 const body = document.querySelector('body');
-const form = body.querySelector('.ad-form');
-const type = form.querySelector('#type');
-const price = form.querySelector('#price');
-const time = form.querySelector('.ad-form__element--time');
-const timeIn = form.querySelector('#timein');
-const timeOut = form.querySelector('#timeout');
+const adForm = body.querySelector('.ad-form');
+const type = adForm.querySelector('#type');
+const price = adForm.querySelector('#price');
+const time = adForm.querySelector('.ad-form__element--time');
+const timeIn = adForm.querySelector('#timein');
+const timeOut = adForm.querySelector('#timeout');
 const roomNumber = body.querySelector('#room_number');
 const capacity = body.querySelector('#capacity');
-const adFormReset = form.querySelector('.ad-form__reset');
+const adFormReset = adForm.querySelector('.ad-form__reset');
 
 const successTemplate = body.querySelector('#success').content;
 const newMessage = successTemplate.querySelector('.success');
@@ -91,13 +93,29 @@ const selectRoomsChangeHandler = () => {
 
 roomNumber.addEventListener('change', selectRoomsChangeHandler);
 
+const resetRoomAmountList = () => {
+  capacity.removeEventListener('change', guestChangeHandler );
+  capacity.innerHTML = '';
+  const room = ROOMS_LIST;
+  const keys = Object.keys(room);
+  keys.forEach((value, i)=>{
+    const valueString = room[keys[i]];
+    const option = new Option(valueString, value, false, false);
+
+    capacity.add(option);
+    capacity.addEventListener('change', guestChangeHandler )
+  });
+  console.log(capacity);
+};
+
 /**
  *  Функция сбрасывает форму на начальное состояние
  */
 const resetForm = () => {
-  form.reset();
+  adForm.reset();
   clearImages();
   resetMap();
+  resetRoomAmountList();
 }
 
 /**
@@ -105,21 +123,26 @@ const resetForm = () => {
  * @param {Event} evtForm
  */
 const formResetHandler = (evtForm) => {
-  evtForm.target.preventDefault();
+  evtForm.preventDefault();
   resetForm();
 };
 
-adFormReset.addEventListener('reset', formResetHandler);
+adFormReset.addEventListener('click', formResetHandler);
 
-form.addEventListener('submit', (evt) => {
+/**
+ *  Функция слушатель события отправки формы
+ * @param {event} evt
+ */
+const adFormSubmitHandler = (evt) => {
   evt.preventDefault();
-  console.log(evt.target);
   sendData(
     showSuccessMessage,
     showErrorMessage,
     new FormData(evt.target),
   );
-});
+};
+
+adForm.addEventListener('submit', adFormSubmitHandler);
 
 /**
  * Функция показывает сообщение об успешной отправке формы
@@ -132,11 +155,11 @@ const showSuccessMessage = () => {
 
 /**
  * Функция по щелчку клавиши Esc закрывает сообщение об успешной отправке формы
- * @param {evt} evt
+ * @param {evtEsc} event
  */
-const successMessageEscKeydownHandler = (evt) => {
-  if (isEscEvent(evt)) {
-    evt.preventDefault();
+const successMessageEscKeydownHandler = (evtEsc) => {
+  if (isEscEvent(evtEsc)) {
+    evtEsc.preventDefault();
     closeSuccessMessage();
   }
 };
@@ -164,6 +187,7 @@ successMessage.addEventListener('click', successMessageClickHandler);
 const showErrorMessage = () => {
   body.appendChild(errorMessage);
   document.addEventListener('keydown', errorMessageEscKeydownHandler);
+  resetForm();
 }
 
 /**
@@ -176,7 +200,7 @@ const closeErrorMessage = () => {
 
 /**
  * Функция по щелчку клавиши Esc закрывает сообщение об успешной отправке формы
- * @param {evt} evt
+ * @param {evt} event
  */
 const errorMessageEscKeydownHandler = (evt) => {
   if (isEscEvent(evt)) {

@@ -1,4 +1,4 @@
-const adForm = document.querySelector('.ad-form');
+const adtForm = document.querySelector('.ad-form');
 const mapFiltersForm = document.querySelector('.map__filters');
 
 /**
@@ -6,9 +6,9 @@ const mapFiltersForm = document.querySelector('.map__filters');
  * @returns {void} сбрасывает форму в начальное состояние и блокирует к ней доступ
  */
 const setInitialPageState = () => {
-  adForm.classList.add('ad-form--disabled');
-  adForm.reset();
-  [...adForm].forEach((element)=> {
+  adtForm.classList.add('ad-form--disabled');
+  adtForm.reset();
+  [...adtForm].forEach((element)=> {
     element.disabled = true;
   });
 
@@ -24,9 +24,9 @@ const setInitialPageState = () => {
  * @returns {void}
  */
 const setActivePageState = () => {
-  adForm.classList.remove('ad-form--disabled');
-  adForm.reset();
-  [...adForm].forEach((element)=> {
+  adtForm.classList.remove('ad-form--disabled');
+  adtForm.reset();
+  [...adtForm].forEach((element)=> {
     element.disabled = false;
   });
 
