@@ -8,6 +8,20 @@ const ROOMS = {'1': {'1': 'для 1 гостя'}, '2': {'1': 'для 1 гост�
 
 const ROOMS_LIST = {'1': 'для 1 гостя', '2': 'для 2 гостей', '3': 'для 3 гостей', '0': 'не для гостей' };
 
+const ROOMS_VALIDATION = {
+  '1': [1],
+  '2': [1, 2],
+  '3': [1, 2, 3],
+  '100': [0],
+};
+
+const CAPACITY_VALIDATION = {
+  '0': [100],
+  '1': [1],
+  '2': [1, 2],
+  '3': [1, 2, 3],
+};
+
 const GUESTS = {
   '0': '100',
   '1': '1',
@@ -33,6 +47,39 @@ const capacitySelect = adForm.querySelector('#capacity');
 const resetButton = adForm.querySelector('.ad-form__reset');
 
 /**
+ * Функция проверяет валидное ли значение гостей исходя из поля кол-во комнат
+ * @returns {boolean}
+ */
+const isValidCapacity = () => {
+  const currentRoomNumber = roomNumberSelect.value;
+  const currentGuest = capacitySelect.value;
+  return ROOMS_VALIDATION[currentRoomNumber].includes(currentGuest);
+};
+console.dir(capacitySelect.options[0].hidden = true);
+/**
+ * Функция скрывает не валидные поля если не синхронизрованы поля кол-во комнат и кол-во гостей
+ * @returns {void}
+ */
+const hideOptionsCapacity = () => {
+  const currentRoomNumber = roomNumberSelect.value;
+  [...capacitySelect.options].forEach((option) => {
+    ROOMS_VALIDATION[currentRoomNumber].includes(option) ?
+    option.hidden = false :
+    option.hidden = true ;
+  })
+};
+
+/**
+ * Функция проверяет валидное ли значение комнат исходя из поля кол-во гостей
+ * @returns {boolean}
+ */
+const isValidRooms = () => {
+  const currentRoomNumber = roomNumberSelect.value;
+  const currentGuest = capacitySelect.value;
+  return CAPACITY_VALIDATION[currentGuest].includes(currentRoomNumber)
+};
+
+/**
  * Функция синхронизирует по полю количество мест поле количество комнат
  * @param {evt} evt
  * @return {void}
@@ -42,6 +89,24 @@ const guestChangeHandler = (evt) => {
 }
 
 capacitySelect.addEventListener('change', guestChangeHandler );
+
+/** Функция создает список select с кол-ом гостей в соответсвии с кол-ом комнат
+ * @return {void}
+ */
+const selectRoomsChangeHandler = () => {
+  capacitySelect.removeEventListener('change', guestChangeHandler );
+  capacitySelect.innerHTML = '';
+  const roomCount = roomNumberSelect.options[roomNumberSelect.selectedIndex].value;
+  const room = ROOMS[roomCount];
+  const keys = Object.keys(room);
+  keys.forEach((value, i)=>{
+    const valueString = room[keys[i]];
+    const option = new Option(valueString, value, false, false);
+    capacitySelect.add(option);
+  });
+};
+
+roomNumberSelect.addEventListener('change', selectRoomsChangeHandler);
 
 /**
  * Функция для каждого типа жилья устанавливает минимальную стоимость в плейсхолдере и значение min для инпута.
@@ -65,24 +130,6 @@ const timeChangeHandler = (evt) => {
 }
 
 timeElement.addEventListener('change', timeChangeHandler);
-
-/** Функция создает список select с кол-ом гостей в соответсвии с кол-ом комнат
- * @return {void}
- */
-const selectRoomsChangeHandler = () => {
-  capacitySelect.removeEventListener('change', guestChangeHandler );
-  capacitySelect.innerHTML = '';
-  const roomCount = roomNumberSelect.options[roomNumberSelect.selectedIndex].value;
-  const room = ROOMS[roomCount];
-  const keys = Object.keys(room);
-  keys.forEach((value, i)=>{
-    const valueString = room[keys[i]];
-    const option = new Option(valueString, value, false, false);
-    capacitySelect.add(option);
-  });
-};
-
-roomNumberSelect.addEventListener('change', selectRoomsChangeHandler);
 
 /**
  *  Функция для сброса списка комнат создавая новый список
@@ -141,4 +188,4 @@ const adFormSubmitHandler = (evt) => {
 
 adForm.addEventListener('submit', adFormSubmitHandler);
 
-export {resetForm}
+export {resetForm, hideOptionsCapacity}

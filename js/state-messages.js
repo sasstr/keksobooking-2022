@@ -11,8 +11,8 @@ const newError = errorTemplate.querySelector('.error');
 const errorMessage = newError.cloneNode(true);
 
 
-/**Функция создает сообщение об ошибки
- *
+/**
+ * Функция создает сообщение об ошибки
  * @param {string} errorMessage
  * @returns {HTMLElement}
  */
