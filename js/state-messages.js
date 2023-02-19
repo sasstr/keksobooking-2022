@@ -1,6 +1,7 @@
 import { isEscEvent } from './util.js';
 import { resetForm } from './form.js';
 
+const body = document.querySelector('body');
 const successTemplate = body.querySelector('#success').content;
 const newMessage = successTemplate.querySelector('.success');
 const successMessage = newMessage.cloneNode(true);
@@ -8,6 +9,7 @@ const successMessage = newMessage.cloneNode(true);
 const errorTemplate = body.querySelector('#error').content;
 const newError = errorTemplate.querySelector('.error');
 const errorMessage = newError.cloneNode(true);
+
 
 /**Функция создает сообщение об ошибки
  *

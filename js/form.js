@@ -22,15 +22,14 @@ const PriceMin = {
   palace: 10000,
 };
 
-const body = document.querySelector('body');
-const adForm = body.querySelector('.ad-form');
+const adForm = document.querySelector('.ad-form');
 const typeSelect = adForm.querySelector('#type');
 const priceInput = adForm.querySelector('#price');
 const timeElement = adForm.querySelector('.ad-form__element--time');
 const timeInSelect = timeElement.querySelector('#timein');
 const timeOutSelect = timeElement.querySelector('#timeout');
-const roomNumberSelect = body.querySelector('#room_number');
-const capacitySelect = body.querySelector('#capacity');
+const roomNumberSelect = adForm.querySelector('#room_number');
+const capacitySelect = adForm.querySelector('#capacity');
 const resetButton = adForm.querySelector('.ad-form__reset');
 
 /**
