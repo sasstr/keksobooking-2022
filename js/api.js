@@ -1,4 +1,4 @@
-import {showErrorMessage} from './state-messages.js';
+import {addErrorMessage, createErrorMessageElement} from './state-messages.js';
 
 const Urls = {
   GET: 'https://23.javascript.pages.academy/keksobooking/data/',
@@ -16,7 +16,7 @@ const getData = (onSuccess) => {
     .then((ads) => {
       onSuccess(ads);
     })
-    .catch(() => showErrorMessage('Данные не загрузились, попробуйте обновить страницу'));
+    .catch(() => addErrorMessage(createErrorMessageElement('Данные не загрузились, попробуйте обновить страницу')));
 };
 
 /**

@@ -1,15 +1,8 @@
 import { resetMap } from './map.js';
 import { clearImages } from './file-uploader.js';
-import { isEscEvent } from './util.js';
 import { sendData } from './api.js';
-
-const PriceMin = {
-  bungalow: 0,
-  flat: 1000,
-  hotel: 3000,
-  house: 5000,
-  palace: 10000,
-};
+import { showSuccessMessage,
+  showErrorMessage } from './state-messages.js';
 
 const ROOMS = {'1': {'1': 'для 1 гостя'}, '2': {'1': 'для 1 гостя', '2': 'для 2 гостей'}, '3': {'1': 'для 1 гостя', '2': 'для 2 гостей', '3': 'для 3 гостей'}, '100': {'0': 'не для гостей'}};
 
@@ -21,25 +14,24 @@ const GUESTS = {
   '2': '2',
   '3': '3',
 };
+const PriceMin = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
 
 const body = document.querySelector('body');
 const adForm = body.querySelector('.ad-form');
-const type = adForm.querySelector('#type');
-const price = adForm.querySelector('#price');
-const time = adForm.querySelector('.ad-form__element--time');
-const timeIn = adForm.querySelector('#timein');
-const timeOut = adForm.querySelector('#timeout');
-const roomNumber = body.querySelector('#room_number');
-const capacity = body.querySelector('#capacity');
-const adFormReset = adForm.querySelector('.ad-form__reset');
-
-const successTemplate = body.querySelector('#success').content;
-const newMessage = successTemplate.querySelector('.success');
-const successMessage = newMessage.cloneNode(true);
-
-const errorTemplate = body.querySelector('#error').content;
-const newError = errorTemplate.querySelector('.error');
-const errorMessage = newError.cloneNode(true);
+const typeSelect = adForm.querySelector('#type');
+const priceInput = adForm.querySelector('#price');
+const timeElement = adForm.querySelector('.ad-form__element--time');
+const timeInSelect = timeElement.querySelector('#timein');
+const timeOutSelect = timeElement.querySelector('#timeout');
+const roomNumberSelect = body.querySelector('#room_number');
+const capacitySelect = body.querySelector('#capacity');
+const resetButton = adForm.querySelector('.ad-form__reset');
 
 /**
  * Функция синхронизирует по полю количество мест поле количество комнат
@@ -47,21 +39,21 @@ const errorMessage = newError.cloneNode(true);
  * @return {void}
  */
 const guestChangeHandler = (evt) => {
-  roomNumber.value = GUESTS[(evt.target.value + '')];
+  roomNumberSelect.value = GUESTS[(evt.target.value + '')];
 }
 
-capacity.addEventListener('change', guestChangeHandler );
+capacitySelect.addEventListener('change', guestChangeHandler );
 
 /**
  * Функция для каждого типа жилья устанавливает минимальную стоимость в плейсхолдере и значение min для инпута.
  * @return {void}
  */
 const priceChangeHandler = () => {
-  price.placeholder = PriceMin[type.value];
-  price.min = PriceMin[type.value];
+  priceInput.placeholder = PriceMin[typeSelect.value];
+  priceInput.min = PriceMin[typeSelect.value];
 }
 
-type.addEventListener('change', priceChangeHandler);
+typeSelect.addEventListener('change', priceChangeHandler);
 
 /**
  * Функция синхронизирует время въезда и выезда
@@ -69,45 +61,45 @@ type.addEventListener('change', priceChangeHandler);
  * @return {void}
  */
 const timeChangeHandler = (evt) => {
-  timeIn.value = evt.target.value;
-  timeOut.value = evt.target.value;
+  timeInSelect.value = evt.target.value;
+  timeOutSelect.value = evt.target.value;
 }
 
-time.addEventListener('change', timeChangeHandler);
+timeElement.addEventListener('change', timeChangeHandler);
 
 /** Функция создает список select с кол-ом гостей в соответсвии с кол-ом комнат
  * @return {void}
  */
 const selectRoomsChangeHandler = () => {
-  capacity.removeEventListener('change', guestChangeHandler );
-  capacity.innerHTML = '';
-  const roomCount = roomNumber.options[roomNumber.selectedIndex].value;
+  capacitySelect.removeEventListener('change', guestChangeHandler );
+  capacitySelect.innerHTML = '';
+  const roomCount = roomNumberSelect.options[roomNumberSelect.selectedIndex].value;
   const room = ROOMS[roomCount];
   const keys = Object.keys(room);
   keys.forEach((value, i)=>{
     const valueString = room[keys[i]];
     const option = new Option(valueString, value, false, false);
-    capacity.add(option);
+    capacitySelect.add(option);
   });
 };
 
-roomNumber.addEventListener('change', selectRoomsChangeHandler);
+roomNumberSelect.addEventListener('change', selectRoomsChangeHandler);
 
 /**
  *  Функция для сброса списка комнат создавая новый список
  *  @returns {void}
  */
 const resetRoomAmountList = () => {
-  capacity.innerHTML = '';
+  capacitySelect.innerHTML = '';
   const room = ROOMS_LIST;
   const keys = Object.keys(room);
   keys.forEach((value, i)=>{
     const valueString = room[keys[i]];
     const option = new Option(valueString, value, false, false);
-    capacity.add(option);
+    capacitySelect.add(option);
   });
-  capacity.addEventListener('change', guestChangeHandler )
-  capacity.selectedIndex = 1;
+  capacitySelect.addEventListener('change', guestChangeHandler )
+  capacitySelect.selectedIndex = 1;
 };
 
 /**
@@ -119,6 +111,7 @@ const resetForm = () => {
   clearImages();
   resetMap();
   resetRoomAmountList();
+  priceInput.placeholder = PriceMin[typeSelect.value];
 }
 
 /**
@@ -131,7 +124,7 @@ const formClickHandler = (evtForm) => {
   resetForm();
 };
 
-adFormReset.addEventListener('click', formClickHandler);
+resetButton.addEventListener('click', formClickHandler);
 
 /**
  *  Функция слушатель события отправки формы
@@ -149,83 +142,4 @@ const adFormSubmitHandler = (evt) => {
 
 adForm.addEventListener('submit', adFormSubmitHandler);
 
-/**
- * Функция показывает сообщение об успешной отправке формы
- * @returns {void}
- */
-const showSuccessMessage = () => {
-  body.appendChild(successMessage);
-  resetForm();
-  document.addEventListener('keydown', successMessageEscKeydownHandler);
-}
-
-/**
- * Функция по щелчку клавиши Esc закрывает сообщение об успешной отправке формы
- * @param {evtEsc} event
- * @returns {void}
- */
-const successMessageEscKeydownHandler = (evtEsc) => {
-  if (isEscEvent(evtEsc)) {
-    evtEsc.preventDefault();
-    closeSuccessMessage();
-  }
-};
-
-/**
- * Функция удаляет сообщение об успешной отправке формы
- * @returns {void}
- */
-const closeSuccessMessage = () => {
-  body.removeChild(successMessage);
-  document.removeEventListener('keydown', successMessageEscKeydownHandler);
-}
-
-/**
- * Функция слушатель события клик для закрытия сообщения об успехе отправки формы на сервер
- * @returns {void}
- */
-const successMessageClickHandler = () => {
-  closeSuccessMessage();
-}
-
-successMessage.addEventListener('click', successMessageClickHandler);
-
-/**
- * Функция показывает сообщение об ошибке отправки формы
- * @returns {void}
- */
-const showErrorMessage = () => {
-  body.appendChild(errorMessage);
-  document.addEventListener('keydown', errorMessageEscKeydownHandler);
-}
-
-/**
- * Функция закрывает сообщение об ошибке по нажатию кнопки Esc
- * @returns {void}
- */
-const closeErrorMessage = () => {
-  body.removeChild(errorMessage);
-  document.removeEventListener('keydown', errorMessageEscKeydownHandler);
-}
-
-/**
- * Функция по щелчку клавиши Esc закрывает сообщение об успешной отправке формы
- * @param {evt} event
- * @returns {void}
- */
-const errorMessageEscKeydownHandler = (evt) => {
-  if (isEscEvent(evt)) {
-    evt.preventDefault();
-    closeErrorMessage();
-  }
-};
-
-/**
- * Функция слушатель события клик для закрытия сообщения об ошибки отправки формы на сервер
- * @returns {void}
- */
-const errorMessageClickHandler = () => {
-  closeErrorMessage();
-}
-
-errorMessage.addEventListener('click', errorMessageClickHandler);
+export {resetForm}
