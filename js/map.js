@@ -71,6 +71,7 @@ map.on('load',
     if(ads) {
       setActivePageState();
       address.value = `${TokyoCenter.lat}, ${TokyoCenter.lng}`;
+      showPins(filterData(ads))
       filters.addEventListener('change', debounce( () => showPins(filterData(ads))) );
     }
   }),
@@ -78,8 +79,6 @@ map.on('load',
   lat: TokyoCenter.lat,
   lng: TokyoCenter.lng,
 }, ZOOM);
-
-getData(showPins);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',

@@ -43,26 +43,30 @@ const compareRooms = (ad) => (housingRooms.value === OPTION_ANY) || parseInt(hou
 const compareGuests = (ad) => (housingGuests.value === OPTION_ANY) || parseInt(housingGuests.value, 10) === ad.offer.guests;
 
 /**
+ * Фильтрует объявления согласно выбранным фильтрам
+ * @param {array} data объект с объявлениями
+ * @returns {boolean}
+*/
+const filterData = (data) => {
+  const checkedFeature = [...housingFeatures.querySelectorAll('.map__checkbox:checked')];
+  /**
  * Функция проверяет какие checkbox-ы чекнуты в housingPrice.
  * @param {object} ad
  * @returns {boolean}
  */
-const compareFeatures = (ad) => {
-  const featureValues = [...housingFeatures.querySelectorAll('.map__checkbox:checked')].map((element) => element.value);
+  const compareFeatures = (ad) => {
+    return ad.offer.features ?
+      checkedFeature.every((feature) => ad.offer.features.includes(feature.value)) :
+      false;
+  };
 
-  return ad.offer.features ? featureValues.every((feature) => ad.offer.features.includes(feature)) : featureValues.length === 0;
-};
-
-/**
- * Фильтрует объявления согласно выбранным фильтрам
- * @param {array} data объект с объявлениями
- * @returns {boolean}
- */
-const filterData = (data) => data.filter((ad) => compareType(ad)
-  && comparePrice(ad)
-  && compareRooms(ad)
-  && compareGuests(ad)
-  && compareFeatures(ad),
-);
-
+  return data.filter( (ad) => {
+    return compareType(ad)
+    && comparePrice(ad)
+    && compareRooms(ad)
+    && compareGuests(ad)
+    && compareFeatures(ad);
+    }
+  );
+}
 export {filterData};

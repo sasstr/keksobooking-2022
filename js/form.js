@@ -55,7 +55,7 @@ const isValidCapacity = () => {
   const currentGuest = capacitySelect.value;
   return ROOMS_VALIDATION[currentRoomNumber].includes(currentGuest);
 };
-console.dir(capacitySelect.options[0].hidden = true);
+// console.dir(capacitySelect.options[0].hidden = true);
 /**
  * Функция скрывает не валидные поля если не синхронизрованы поля кол-во комнат и кол-во гостей
  * @returns {void}
@@ -64,20 +64,21 @@ const hideOptionsCapacity = () => {
   const currentRoomNumber = roomNumberSelect.value;
   [...capacitySelect.options].forEach((option) => {
     ROOMS_VALIDATION[currentRoomNumber].includes(option) ?
-    option.hidden = false :
-    option.hidden = true ;
+      option.hidden = true :
+      option.hidden = false;
+      console.dir(option);
   })
 };
-
+hideOptionsCapacity();
 /**
  * Функция проверяет валидное ли значение комнат исходя из поля кол-во гостей
  * @returns {boolean}
  */
-const isValidRooms = () => {
-  const currentRoomNumber = roomNumberSelect.value;
-  const currentGuest = capacitySelect.value;
-  return CAPACITY_VALIDATION[currentGuest].includes(currentRoomNumber)
-};
+// const isValidRooms = () => {
+//   const currentRoomNumber = roomNumberSelect.value;
+//   const currentGuest = capacitySelect.value;
+//   return CAPACITY_VALIDATION[currentGuest].includes(currentRoomNumber)
+// };
 
 /**
  * Функция синхронизирует по полю количество мест поле количество комнат
@@ -90,18 +91,29 @@ const guestChangeHandler = (evt) => {
 
 capacitySelect.addEventListener('change', guestChangeHandler );
 
-/** Функция создает список select с кол-ом гостей в соответсвии с кол-ом комнат
+/** Функция создает список select с кол-ом гостей в соответствие с кол-ом комнат
  * @return {void}
  */
 const selectRoomsChangeHandler = () => {
+  // убираем слушатель события change c capacitySelect
   capacitySelect.removeEventListener('change', guestChangeHandler );
+  // Отчищаем от опций capacitySelect - готовим пустой для наполнения.
   capacitySelect.innerHTML = '';
+  // получаем значение выбранной опции пользователем из списка кол-ва комнат
   const roomCount = roomNumberSelect.options[roomNumberSelect.selectedIndex].value;
+  // Выбираем нужный объект из созданной структуры с данными кол-ва гостей (вот тут момент зависимости от верстки)
   const room = ROOMS[roomCount];
+  // создаем объект ключей из выбранной структуры с данными кол-ва гостей
   const keys = Object.keys(room);
+  // Бежим по значениям и создаем option для каждой (вот тут момент зависимости от верстки)
   keys.forEach((value, i)=>{
+    // Получаем нужный текст для заполнения option
     const valueString = room[keys[i]];
+    console.log('valueString: ' + valueString);
+    console.log('value: ' + value);
+    // Создаем новый элемент option (valueString - текст, value - код attribute, false - defaultSelected, false - selected)
     const option = new Option(valueString, value, false, false);
+    // добавляем каждую созданную опцию к элементу capacitySelect
     capacitySelect.add(option);
   });
 };
