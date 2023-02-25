@@ -15,12 +15,12 @@ const ROOMS_VALIDATION = {
   '100': [0],
 };
 
-const CAPACITY_VALIDATION = {
-  '0': [100],
-  '1': [1],
-  '2': [1, 2],
-  '3': [1, 2, 3],
-};
+// const CAPACITY_VALIDATION = {
+//   '0': [100],
+//   '1': [1],
+//   '2': [1, 2],
+//   '3': [1, 2, 3],
+// };
 
 const GUESTS = {
   '0': '100',
@@ -55,21 +55,32 @@ const isValidCapacity = () => {
   const currentGuest = capacitySelect.value;
   return ROOMS_VALIDATION[currentRoomNumber].includes(currentGuest);
 };
-// console.dir(capacitySelect.options[0].hidden = true);
+
 /**
  * Функция скрывает не валидные поля если не синхронизрованы поля кол-во комнат и кол-во гостей
  * @returns {void}
  */
+const saveCapacityOptions = capacitySelect.innerHTML;
+
 const hideOptionsCapacity = () => {
-  const currentRoomNumber = roomNumberSelect.value;
-  [...capacitySelect.options].forEach((option) => {
-    ROOMS_VALIDATION[currentRoomNumber].includes(option) ?
-      option.hidden = true :
-      option.hidden = false;
-      console.dir(option);
-  })
-};
+  if(!isValidCapacity()){
+    capacitySelect.innerHTML = saveCapacityOptions;
+    const roomValue = roomNumberSelect.value;
+    for(let i = 0; i < capacitySelect.length; ){
+      const option = capacitySelect.options[i];
+      const found = ROOMS_VALIDATION[roomValue].includes(+option.value)
+      if(!found){
+        option.remove();
+      }
+      else {
+        i++
+      }
+    }
+  }
+}
+
 hideOptionsCapacity();
+
 /**
  * Функция проверяет валидное ли значение комнат исходя из поля кол-во гостей
  * @returns {boolean}

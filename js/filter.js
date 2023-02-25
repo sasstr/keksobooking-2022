@@ -8,10 +8,11 @@ const PriceLevel = {
   CHEAP: 10000,
   EXPENSIVE: 50000,
 };
-const Levels = {
-  'low': (ad)=> { return PriceLevel.CHEAP > ad.offer.price;},
-  'middle': (ad)=> { return PriceLevel.CHEAP <= ad.offer.price && ad.offer.price < PriceLevel.EXPENSIVE;},
-  'high': (ad)=> { return PriceLevel.EXPENSIVE <= ad.offer.price;},
+
+const PriceTypes = {
+  LOW: 'low',
+  MIDDLE: 'middle',
+  HIGH: 'high',
 };
 
 /**
@@ -19,7 +20,18 @@ const Levels = {
  * @param {object} ad объект с данными одного объявления.
  * @returns {boolean}
  */
-const comparePrice = (ad) => housingPrice.value !== 'any' ? Levels[housingPrice.value](ad) : true;
+const comparePrice = (ad) => {
+  if(housingPrice.value === PriceTypes.LOW){
+    return PriceLevel.CHEAP > ad.offer.price
+  }
+  if(housingPrice.value === PriceTypes.MIDDLE) {
+    return PriceLevel.CHEAP <= ad.offer.price && ad.offer.price < PriceLevel.EXPENSIVE
+  }
+  if(housingPrice.value === PriceTypes.HIGH) {
+    return PriceLevel.EXPENSIVE <= ad.offer.price
+  }
+  return true;
+}
 
 /**
  * Функция проверяет какая option выбрана в select housingType.

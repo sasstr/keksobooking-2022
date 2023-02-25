@@ -1,3 +1,4 @@
+// import {hideOptionsCapacity} from './form.js'
 const adtForm = document.querySelector('.ad-form');
 const mapFiltersForm = document.querySelector('.map__filters');
 const PriceOfHouse = {
@@ -13,6 +14,7 @@ const PriceOfHouse = {
  * @returns {void} сбрасывает форму в начальное состояние и блокирует к ней доступ
  */
 const setInitialPageState = () => {
+  // hideOptionsCapacity();
   adtForm.classList.add('ad-form--disabled');
   adtForm.reset();
 
@@ -38,6 +40,7 @@ const setActivePageState = () => {
   [...adtForm].forEach((element) => {
     element.disabled = false;
   });
+
 
   mapFiltersForm.classList.remove('map__filters--disabled');
   mapFiltersForm.reset();
